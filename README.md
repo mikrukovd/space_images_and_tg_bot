@@ -15,28 +15,28 @@ pip install -r requrements.txt
 ### `fetch_spacex_images` 
 Запускается командой:
 ```bash
-python fetch_spacex_images.py <id запуска> <папка для сохранения изображений>
+python fetch_spacex_images.py <id запуска> --save_folder <папка для сохранения изображений>
  ```
 Если не указывать id и папку, то будут скачаны изображения с последнего запуска и сохранены в папку `images`(по умолчанию).
 
 ### `fetch_nasa_epic_images` 
 Запускается командой:
 ```bash
-python fetch_nasa_epic_images.py <дата в формате YYYY_MM_DD> <папка для сохранения изображений>
+python fetch_nasa_epic_images.py --date <дата в формате YYYY_MM_DD> --save_folder <папка для сохранения изображений>
 ```
 Если не указывать дату, то будет искать дату ближайшую дату фотографий и сохранены в папку `images`(по умолчанию).
 
 ### `fetch_nasa_apod_images`
 Запускается командой:
 ```bash
-python fetch_nasa_apod_images.py <дата в формате YYYY-MM-DD> <папка для сохранения фотографий>
+python fetch_nasa_apod_images.py --date <дата в формате YYYY-MM-DD> --save_folder <папка для сохранения фотографий>
 ```
 Если не указывать дату, то будет искать дату ближайшую дату фотографий и сохранены в папку `images`(по умолчанию).
 
 ### `send_images_from_bot`
 Запускается командой:
 ```bash
-python send_images_from_bot.py <папка с изображениями> <интервал публикаций в часах>
+python send_images_from_bot.py <папка с изображениями> --interval <интервал публикаций в часах>
 ```
 Скрипт работает бесконечно, интервал публикаций по умолчанию 4 часа. В папке `images` есть тестовые изображения.
 
