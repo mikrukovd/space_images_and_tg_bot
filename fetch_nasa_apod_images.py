@@ -3,40 +3,43 @@ import os
 import argparse
 
 from dotenv import load_dotenv
-from helpers import get_file_name_and_file_extension, download_images
+from helpers import get_file_name_and_file_extension, download_image
 
 
-def download_nasa_apod_images(date, save_folder):
+def download_nasa_apod_images(count, save_folder, api):
     '''Скачивает изображения apod по дате'''
 
-    load_dotenv()
-    api_nasa = os.getenv('API_NASA')
-
     url = 'https://api.nasa.gov/planetary/apod'
-    params = {'api_key': api_nasa}
-
-    if date:
-        params['date'] = date
+    params = {
+        'api_key': api,
+        'count': count
+    }
 
     response = requests.get(url, params)
     response.raise_for_status()
-    image_url = response.json()['url']
+    for number, image_url in enumerate(response.json()):
+        link = image_url['url']
+        splited_filename = get_file_name_and_file_extension(link)
 
-    splited_filename = get_file_name_and_file_extension(image_url)
-
-    download_images(
-        image_url,
-        save_folder,
-        f'{splited_filename[0]}{splited_filename[1]}'
-    )
+        download_image(
+            link,
+            save_folder,
+            f'{splited_filename[0]}{splited_filename[1]}'
+        )
 
 
 def main():
-    parser = argparse.ArgumentParser(description='Скачивает изображения apod по дате')
+    load_dotenv()
+    api_key_nasa = os.getenv('API_KEY_NASA')
+
+    parser = argparse.ArgumentParser(
+        description='Скачивает изображения apod по дате'
+    )
     parser.add_argument(
-        '--date',
-        type=str,
-        help='Дата в формате YYYY-MM-DD'
+        '--count',
+        type=int,
+        default=5,
+        help='Сколько нужно скачать изображений, 5 по умолчанию'
     )
     parser.add_argument(
         '--save_folder',
@@ -46,7 +49,7 @@ def main():
 
     args = parser.parse_args()
 
-    download_nasa_apod_images(args.date, args.save_folder)
+    download_nasa_apod_images(args.count, args.save_folder, api_key_nasa)
 
 
 if __name__ == '__main__':
