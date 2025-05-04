@@ -6,9 +6,9 @@
 pip install -r requrements.txt
 ```
 ## Переменные окружения
-- `API_NASA` можно получить [тут](https://api.nasa.gov/).
-- `API_BOT` как создать бота и получить api [тут](https://smmplanner.com/blog/otlozhennyj-posting-v-telegram/#02).
-- `CHAT_ID` как получить id канала [тут](https://docs.leadconverter.su/faq/populyarnye-voprosy/telegram/kak-uznat-id-telegram-gruppy-chata).
+- `API_KEY__NASA` можно получить [тут](https://api.nasa.gov/).
+- `API_KEY_TG_BOT` как создать бота и получить api [тут](https://smmplanner.com/blog/otlozhennyj-posting-v-telegram/#02).
+- `TG_CHAT_ID` как получить id канала [тут](https://docs.leadconverter.su/faq/populyarnye-voprosy/telegram/kak-uznat-id-telegram-gruppy-chata).
 
 ## Запуск
 
