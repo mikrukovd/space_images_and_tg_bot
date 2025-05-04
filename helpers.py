@@ -4,11 +4,10 @@ import requests
 from urllib.parse import urlsplit
 
 
-def download_images(image_url, save_folder, filename):
+def download_image(image_url, save_folder, filename):
     '''Создает папку и скачивает картинку с сайта'''
 
-    if not os.path.exists(save_folder):
-        os.makedirs(save_folder)
+    os.makedirs(save_folder, exist_ok=True)
 
     response = requests.get(image_url, stream=True)
     response.raise_for_status()
