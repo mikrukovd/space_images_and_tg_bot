@@ -2,6 +2,7 @@ import requests
 import os
 import argparse
 
+from urllib.parse import urlencode
 from datetime import datetime
 from dotenv import load_dotenv
 from helpers import get_filename_and_file_extension, download_image
@@ -40,13 +41,12 @@ def download_nasa_epic_images(save_folder, date, api_key):
         year = launch_date.strftime('%Y')
         month = launch_date.strftime('%m')
         day = launch_date.strftime('%d')
-        image_url = (
+        image_base_url = (
             f'https://api.nasa.gov/EPIC/archive/natural/{year}/{month}/{day}'
             f'/png/{image_name}.png'
         )
-        response_image_url = requests.get(image_url, params)
-        response_image_url.raise_for_status()
-        image_urls.append(response_image_url.url)
+        image_url = f'{image_base_url}?{urlencode(params)}'
+        image_urls.append(image_url)
 
     for link in image_urls:
         filename, file_extension = get_filename_and_file_extension(link)
