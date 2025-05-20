@@ -2,15 +2,16 @@ import requests
 import os
 import argparse
 
+from datetime import datetime
 from dotenv import load_dotenv
-from helpers import get_file_name_and_file_extension, download_image
+from helpers import get_filename_and_file_extension, download_image
 
 
-def download_nasa_epic_images(save_folder, date, api):
+def download_nasa_epic_images(save_folder, date, api_key):
     '''Скачивает изображения планеты по дате'''
 
     base_url = 'https://api.nasa.gov/EPIC/api/natural'
-    params = {'api_key': api}
+    params = {'api_key': api_key}
 
     if date:
         url = f'{base_url}/date/{date}'
@@ -35,7 +36,10 @@ def download_nasa_epic_images(save_folder, date, api):
 
     for content in response.json():
         image_name = content['image']
-        year, month, day = date.split('-')
+        launch_date = datetime.fromisoformat(date)
+        year = launch_date.strftime('%Y')
+        month = launch_date.strftime('%m')
+        day = launch_date.strftime('%d')
         image_url = (
             f'https://api.nasa.gov/EPIC/archive/natural/{year}/{month}/{day}'
             f'/png/{image_name}.png'
@@ -45,11 +49,11 @@ def download_nasa_epic_images(save_folder, date, api):
         image_urls.append(response_image_url.url)
 
     for link in image_urls:
-        splited_filename = get_file_name_and_file_extension(link)
+        filename, file_extension = get_filename_and_file_extension(link)
         download_image(
             link,
             save_folder,
-            f'{splited_filename[0]}{splited_filename[1]}'
+            f'{filename}{file_extension}'
         )
 
 
@@ -57,7 +61,9 @@ def main():
     load_dotenv()
     api_key_nasa = os.getenv('API_KEY_NASA')
 
-    parser = argparse.ArgumentParser(description='epic')
+    parser = argparse.ArgumentParser(
+        description='Скачивает изображения epic'
+    )
     parser.add_argument(
         '--date',
         type=str,
