@@ -18,7 +18,10 @@ def download_image(image_url, save_folder, filename):
         file.write(response.content)
 
 
-def get_file_name_and_file_extension(image_url):
+def get_filename_and_file_extension(image_url):
     '''Возвращает имя и расширение файла из ссылки'''
+    splited_url = urlsplit(image_url).path
+    filename = os.path.split(splited_url)[1]
+    splited_filename = os.path.splitext(filename)
 
-    return os.path.splitext(os.path.split(urlsplit(image_url).path)[1])
+    return splited_filename
