@@ -3,15 +3,15 @@ import os
 import argparse
 
 from dotenv import load_dotenv
-from helpers import get_file_name_and_file_extension, download_image
+from helpers import get_filename_and_file_extension, download_image
 
 
-def download_nasa_apod_images(count, save_folder, api):
+def download_nasa_apod_images(count, save_folder, api_key):
     '''Скачивает изображения apod по дате'''
 
     url = 'https://api.nasa.gov/planetary/apod'
     params = {
-        'api_key': api,
+        'api_key': api_key,
         'count': count
     }
 
@@ -19,12 +19,12 @@ def download_nasa_apod_images(count, save_folder, api):
     response.raise_for_status()
     for number, image_url in enumerate(response.json()):
         link = image_url['url']
-        splited_filename = get_file_name_and_file_extension(link)
+        filename, file_extension = get_filename_and_file_extension(link)
 
         download_image(
             link,
             save_folder,
-            f'{splited_filename[0]}{splited_filename[1]}'
+            f'{filename}{file_extension}'
         )
 
 
@@ -33,7 +33,7 @@ def main():
     api_key_nasa = os.getenv('API_KEY_NASA')
 
     parser = argparse.ArgumentParser(
-        description='Скачивает изображения apod по дате'
+        description='Скачивает изображения apod'
     )
     parser.add_argument(
         '--count',
